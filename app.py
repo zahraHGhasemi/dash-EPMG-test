@@ -88,6 +88,8 @@ overview_layout = dbc.Container([
                   html.H5("Ireland, 2022", className="card-subtitle"),
                   html.H3("33 Mt CO₂", className="card-text"),
                   html.H5("0.1% of global emissions", className="card-text"),
+                  dbc.Button("Emission", color="primary", id = "emission-button"),
+
                 ])
             ),
             width=3
