@@ -73,77 +73,6 @@ sector_nav = dbc.Nav(
     pills=True,
 )
 
-def create_metric_card(title, value, subtitle, color="primary"):
-    """
-    Create a metric card component
-    """
-    return dbc.Card([
-        dbc.CardBody([
-            html.H4(title, className="card-title text-muted mb-3"),
-            html.H1(value, className="display-4 fw-bold mb-2"),
-            html.P(subtitle, className="text-muted mb-3")
-        ])
-    ], className="h-100 shadow-sm")
-
-def create_energy_overview_section():
-    """
-    Create the energy overview section with metrics cards
-    """
-    return html.Div([
-        dbc.Row([
-            # Top row - 3 cards
-            dbc.Col([
-                create_metric_card(
-                    title="Electricity consumption per capita",
-                    value="↑16%",
-                    subtitle="change 2000-2023",
-                )
-            ], xs=12, md=4, className="mb-4"),
-
-            dbc.Col([
-                create_metric_card(
-                    title="Energy intensity of the economy",
-                    value="↓69%",
-                    subtitle="change 2000-2023",
-                )
-            ], xs=12, md=4, className="mb-4"),
-
-            dbc.Col([
-                create_metric_card(
-                    title="Renewables",
-                    value="38.9%",
-                    subtitle="share of power generation, 2022",
-                )
-            ], xs=12, md=4, className="mb-4"),
-        ]),
-
-        dbc.Row([
-            # Bottom row - 3 cards
-            dbc.Col([
-                create_metric_card(
-                    title="Oil",
-                    value="45%",
-                    subtitle="of total energy supply, 2023",
-                )
-            ], xs=12, md=4, className="mb-4"),
-
-            dbc.Col([
-                create_metric_card(
-                    title="Natural gas",
-                    value="32%",
-                    subtitle="of total energy supply, 2023",
-                )
-            ], xs=12, md=4, className="mb-4"),
-
-            dbc.Col([
-                create_metric_card(
-                    title="Coal",
-                    value="5%",
-                    subtitle="of total energy supply, 2023",
-                )
-            ], xs=12, md=4, className="mb-4"),
-        ])
-    ], className="container-fluid")
 
 overview_layout = dbc.Container([
     html.H2("Overview", className="mb-4"),
@@ -151,27 +80,36 @@ overview_layout = dbc.Container([
     dbc.Row([
         dbc.Col(
             dbc.Card(
-                dbc.CardBody([
-                    html.H4("Total Scenarios", className="card-title"),
-                    html.H2("12", className="card-text text-primary")
+                dbc.CardBody([   
+                  html.H4("Emissions", className="card-title"),
+                  html.P(
+                      "Energy-related CO2 emissions, Ireland, 2022", className="card-text"
+                  ),
+                  html.H5("Ireland, 2022", className="card-subtitle"),
+                  html.H3("33 Mt CO₂", className="card-text"),
+                  html.H5("0.1% of global emissions", className="card-text"),
                 ])
             ),
             width=3
         ),
         dbc.Col(
             dbc.Card(
-                dbc.CardBody([
-                    html.H4("Total Emissions", className="card-title"),
-                    html.H2("1.2M tCO₂", className="card-text text-danger")
+                dbc.CardBody([   
+                  html.H4("Renewables", className="card-title"),
+
+                  html.H3("38.9%", className="card-text"),
+                  html.H5("share of power generation, 2022", className="card-text"),
                 ])
             ),
             width=3
         ),
         dbc.Col(
             dbc.Card(
-                dbc.CardBody([
-                    html.H4("Years Covered", className="card-title"),
-                    html.H2("1990–2050", className="card-text text-success")
+                dbc.CardBody([   
+                  html.H4("Electricity consumption per capita", className="card-title"),
+
+                  html.H3("↑9%", className="card-text"),
+                  html.H5("change 2000-2024", className="card-text"),
                 ])
             ),
             width=3
