@@ -56,6 +56,8 @@ scenarios = sorted(all_data_melted['Scenario'].unique())
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP],
     suppress_callback_exceptions=True)
+server = app.server
+
 app.title = "Energy Scenarios Dashboard"
 
 
