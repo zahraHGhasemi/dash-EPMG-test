@@ -145,6 +145,41 @@ def create_energy_overview_section():
         ])
     ], className="container-fluid")
 
+overview_layout = dbc.Container([
+    html.H2("Overview", className="mb-4"),
+
+    dbc.Row([
+        dbc.Col(
+            dbc.Card(
+                dbc.CardBody([
+                    html.H4("Total Scenarios", className="card-title"),
+                    html.H2("12", className="card-text text-primary")
+                ])
+            ),
+            width=3
+        ),
+        dbc.Col(
+            dbc.Card(
+                dbc.CardBody([
+                    html.H4("Total Emissions", className="card-title"),
+                    html.H2("1.2M tCO₂", className="card-text text-danger")
+                ])
+            ),
+            width=3
+        ),
+        dbc.Col(
+            dbc.Card(
+                dbc.CardBody([
+                    html.H4("Years Covered", className="card-title"),
+                    html.H2("1990–2050", className="card-text text-success")
+                ])
+            ),
+            width=3
+        ),
+    ], className="mb-4"),
+
+    # You can add more rows with graphs/tables here
+])
 app.layout = html.Div([
     html.Div([
         html.Label("Select Scenario:", className="control-label"),
@@ -165,85 +200,7 @@ app.layout = html.Div([
         step=1
     ),
     dcc.Tabs([
-        dcc.Tab(label='Overview', children=[
-            # html.Div([
-            #     create_energy_overview_section()
-            # ]),
-
-
-
-            # dbc.Row([
-            #     # Left card (Energy Mix)
-            #     dbc.Col(
-            #         dbc.Card([
-            #             dbc.CardHeader("Energy mix"),
-            #             dbc.CardBody([
-            #                 html.H6("Total energy supply, Ireland, 2023"),
-            #                 dcc.Graph(id='energy-mix-chart',
-            #                     figure=px.bar(
-            #                         x=["Coal", "Oil", "Natural gas", "Renewables"],
-            #                         y=[5.4, 46.2, 32.3, 8.5],
-            #                         labels={"x": "Source", "y": "Percent"},
-            #                         title="Energy Mix"
-            #                     )
-            #                 )
-            #             ])
-            #         ]),style={
-            #             'backgroundColor': '#3498DB',
-            #             'color': 'white',
-            #             'padding': '20px',
-            #             'borderRadius': '10px',
-            #             'textAlign': 'center',
-            #             'margin': '10px'
-            #         }
-            #     ),
-
-            #     # Right card (Emissions)
-            #     dbc.Col(
-            #         dbc.Card([
-            #             dbc.CardHeader("Emissions"),
-            #             dbc.CardBody([
-            #                 html.H6("Energy-related CO2 emissions, Ireland, 2022"),
-            #                 html.H2("33 Mt CO2"),
-            #                 html.P("0.1% of global emissions"),
-            #                 html.P("↓19% since 2000"),
-            #             ])
-            #         ]), style={
-            #             'backgroundColor': 'aqua',
-            #             'color': 'balck',
-            #             'padding': '20px',
-            #             'borderRadius': '10px',
-            #             'textAlign': 'center',
-            #             'margin': '10px'
-            #         }
-            #     ),
-            # ]),
-
-            # dbc.Row([
-            #     dbc.Label("Select Year:"),
-            #     dbc.Input(type="number", min=2018, max= 2051, step=1, placeholder = 'Enter a year between 2018 to 2051', id ='year-input'),
-            #     dbc.Col(
-            #         dbc.Card([
-            #             dbc.CardHeader("Import"),
-            #             dbc.CardBody([
-            #                 dcc.Graph(id='import-chart')
-            #             ])
-            #         ])
-            #     ),
-            #     dbc.Col(
-            #         dbc.Card([
-            #             dbc.CardHeader("Export"),
-            #             dbc.CardBody([
-            #                 dcc.Graph(id='export-chart')
-            #             ])
-            #         ])
-            #     ),
-            # ], style={
-            #     "textAlign": 'center'
-            # })
-
-
-        ]),
+        dcc.Tab(label='Overview', children= overview_layout),
         dcc.Tab(label ="Supply", children = [
             html.Div([
                 html.Label("Select suuply by source:"),
