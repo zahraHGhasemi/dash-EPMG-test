@@ -1,8 +1,8 @@
 from dash import Input, Output
 from utils.plot_chart import plot_chart
-
-def register_subsector_industry_callback(app,all_data_melted):
-        
+from utils.dataframe_melter import get_data_melted
+def register_subsector_industry_callback(app):#,all_data_melted):
+    all_data_melted = get_data_melted()
     @app.callback(
         Output('industry-subsector-chart', 'figure'),
         Input('scenario-dropdown', 'value'),

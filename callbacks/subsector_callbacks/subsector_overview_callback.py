@@ -2,11 +2,11 @@ from dash import dcc, html
 from dash.dependencies import Input, Output
 from utils.plot_chart import plot_chart
 from utils.filter_dataframe import filter_df_by_category
-
-def register_subsector_overview_callback(app, all_data_melted):
+from utils.dataframe_melter import get_data_melted
+def register_subsector_overview_callback(app):#, all_data_melted):
     dict_table_name = {'Transport': 'TRA_FEC', 'Residential': 'RSD_FEC', 'Services': 'SRV_FEC',
                         'Industry': 'IND_FEC', 'Agriculture': 'AGR_FEC'}
-      
+    all_data_melted = get_data_melted()
     @app.callback(
         Output('FEC_by_sector_chart', 'figure'),
         Input('scenario-dropdown', 'value'),

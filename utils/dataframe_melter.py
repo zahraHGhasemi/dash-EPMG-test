@@ -1,6 +1,7 @@
 from utils.config_loader import chartsTitle, seriesTitle
 import pandas as pd
 import numpy as np
+from utils.data_loader import all_data_df
 
 def add_title_column(df):
     # Merge with chartsTitle to add the complete table name
@@ -49,3 +50,10 @@ def melt_dataframe(all_data_df):
     )
     scenarios = sorted(all_data_melted['Scenario'].unique())
     return all_data_melted, scenarios
+
+all_data_melted, scenarios = melt_dataframe(all_data_df)
+
+def get_data_melted():
+    return all_data_melted
+def get_scenarios():
+    return scenarios

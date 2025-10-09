@@ -1,8 +1,10 @@
 
 from dash import Input, Output
 from utils.plot_chart import plot_chart
+from utils.dataframe_melter import get_data_melted
 
-def register_subsector_services_callback(app,all_data_melted):
+def register_subsector_services_callback(app):#,all_data_melted):
+    all_data_melted = get_data_melted()
     @app.callback(
         Output('services-tfc-chart', 'figure'),
         Input('scenario-dropdown', 'value'),

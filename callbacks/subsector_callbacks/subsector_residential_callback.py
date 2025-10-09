@@ -1,8 +1,9 @@
 from dash import Input, Output
-import plotly.express as px
 from utils.plot_chart import plot_chart
+from utils.dataframe_melter import get_data_melted
 
-def register_subsector_residential_callback(app,all_data_melted):
+def register_subsector_residential_callback(app):#,all_data_melted):
+    all_data_melted = get_data_melted()
     @app.callback(
         Output('residential-house-stock-chart', 'figure'),
         Input('scenario-dropdown', 'value'),

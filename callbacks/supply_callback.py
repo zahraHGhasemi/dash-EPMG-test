@@ -2,7 +2,9 @@
 from dash import Input, Output
 from utils.table_series_name import get_table_id 
 from utils.plot_chart import plot_chart
-def register_supply_callbacks(app, all_data_melted):
+from utils.dataframe_melter import get_data_melted
+def register_supply_callbacks(app):#, all_data_melted):
+    all_data_melted = get_data_melted()
     @app.callback(
         Output('supply-chart', 'figure'),
         Input('scenario-dropdown', 'value'),

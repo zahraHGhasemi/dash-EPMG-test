@@ -1,8 +1,10 @@
 from dash import Input, Output
 from utils.plot_chart import plot_chart
 from utils.filter_dataframe import filter_df_by_category
+from utils.dataframe_melter import get_data_melted
 
-def register_subsector_transport_callback(app, all_data_melted):
+def register_subsector_transport_callback(app):#, all_data_melted):
+    all_data_melted = get_data_melted()
     df_filtered_FC = filter_df_by_category(all_data_melted, ['TRA','Fuel'])
     df_filtered_VS = filter_df_by_category(all_data_melted, ['TRA', 'TYPE'],['Fuel'])
     df_filtered_VA = filter_df_by_category(all_data_melted, ['TRA', 'Land'])

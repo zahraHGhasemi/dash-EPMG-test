@@ -37,3 +37,5 @@ def load_data(file_path):
     except Exception as e:
         print(f"Error loading {file_path}: {e}")
         return pd.DataFrame()
+    
+all_data_df = load_and_concat_data('data')

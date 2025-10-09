@@ -2,8 +2,9 @@ from dash import Input, Output, State
 from utils.filter_dataframe import filter_df_by_category    
 from dash import dcc, html
 from utils.plot_chart import plot_chart
-
-def register_search_callbacks(app, all_data_melted):
+from utils.dataframe_melter import get_data_melted
+def register_search_callbacks(app):#, all_data_melted):
+    all_data_melted = get_data_melted()
     @app.callback(
         Output("search-results-container", "children"),
         Input("apply-filter-btn", "n_clicks"),

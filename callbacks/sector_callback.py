@@ -6,9 +6,10 @@ from components.subsectors.subsector_overview import subsector_overview
 from components.subsectors.subsector_residential import subsector_residential
 from components.subsectors.subsector_services import subsector_services
 from components.subsectors.subsector_industry import subsector_industry
+from utils.dataframe_melter import get_data_melted
 
-
-def register_sector_callbacks(app, all_data_melted):
+def register_sector_callbacks(app):#, all_data_melted):
+    all_data_melted = get_data_melted()
     @app.callback(
         Output("sector-content", "children"),
         Input("sector-radio", "value")

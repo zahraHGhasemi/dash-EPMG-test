@@ -16,6 +16,7 @@ from components.power import power_layout
 from components.sector import sector_layout
 from components.search import search_layout
 from components.emissionCO2 import emissionCO2_layout   
+from callbacks.overview_callback import register_overview_callbacks
 from callbacks.supply_callback import register_supply_callbacks
 from callbacks.power_callback import register_power_callbacks
 from callbacks.emissionCO2_callback import register_emissionCO2_callback
@@ -26,13 +27,16 @@ from callbacks.subsector_callbacks.subsector_residential_callback import registe
 from callbacks.subsector_callbacks.subsector_services_callback import register_subsector_services_callback
 from callbacks.subsector_callbacks.subsector_industry_callback import register_subsector_industry_callback
 from callbacks.search_callback import register_search_callbacks
-from utils.data_loader import  save_data
 
-all_data_df = load_and_concat_data('data')
+# from utils.data_loader import  save_data
+from utils.dataframe_melter import get_data_melted, get_scenarios
+# all_data_df = load_and_concat_data('data')
 
-all_data_melted, scenarios = melt_dataframe(all_data_df)
+# all_data_melted, scenarios = melt_dataframe(all_data_df)
 
-save_data(all_data_melted, 'data_all/all_data_melted.csv')
+# save_data(all_data_melted, 'data_all/all_data_melted.csv')
+scenarios = get_scenarios()
+all_data_melted = get_data_melted()
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP],
     suppress_callback_exceptions=True)
@@ -71,43 +75,29 @@ app.layout = html.Div([
 
 ])
 
+# register_overview_callbacks(app, all_data_melted)
+# register_supply_callbacks(app, all_data_melted)
+# register_power_callbacks(app, all_data_melted)
+# register_sector_callbacks(app, all_data_melted)
+# register_emissionCO2_callback(app, all_data_melted)
+# register_search_callbacks(app, all_data_melted)
+# register_subsector_overview_callback(app, all_data_melted)
+# register_subsector_transport_callback(app, all_data_melted) 
+# register_subsector_residential_callback(app,all_data_melted)
+# register_subsector_services_callback(app,all_data_melted)
+# register_subsector_industry_callback(app,all_data_melted)
 
-register_supply_callbacks(app, all_data_melted)
-register_power_callbacks(app, all_data_melted)
-register_sector_callbacks(app, all_data_melted)
-register_emissionCO2_callback(app, all_data_melted)
-register_search_callbacks(app, all_data_melted)
-register_subsector_overview_callback(app, all_data_melted)
-register_subsector_transport_callback(app, all_data_melted) 
-register_subsector_residential_callback(app,all_data_melted)
-register_subsector_services_callback(app,all_data_melted)
-register_subsector_industry_callback(app,all_data_melted)
-
-
-@app.callback(
-    Output('import-chart', 'figure'),
-    Input('scenario-dropdown', 'value'),
-    Input('year-input', 'value')
-)
-def update_import_chart(scenario, year):
-    filtered_df = all_data_melted[(all_data_melted['Year']== year) &
-                                 (all_data_melted['Scenario'] == scenario) &
-                                 (all_data_melted['tableName'] == 'SYS_NRG-Import')]
-    fig = px.pie(filtered_df, values='Value', names='seriesName', title=f'Import ({year})')
-    return fig
-
-@app.callback(
-    Output('export-chart', 'figure'),
-    Input('scenario-dropdown', 'value'),
-    Input('year-input', 'value')
-)
-def update_export_chart(scenario, year):
-    filtered_df = all_data_melted[(all_data_melted['Year'] >= year) &
-                                 (all_data_melted['Scenario'] == scenario) &
-                                 (all_data_melted['tableName'] == 'SYS_NRG-Export')]
-    fig = px.pie(filtered_df, values='Value', names='seriesName', title=f'Export ({year})')
-    return fig
-
+register_overview_callbacks(app) #, all_data_melted)
+register_supply_callbacks(app)#, all_data_melted)
+register_power_callbacks(app)#, all_data_melted)
+register_sector_callbacks(app)#, all_data_melted)
+register_emissionCO2_callback(app)#, all_data_melted)
+register_search_callbacks(app)#, all_data_melted)
+register_subsector_overview_callback(app)#, all_data_melted)
+register_subsector_transport_callback(app)#, all_data_melted) 
+register_subsector_residential_callback(app)#,all_data_melted)
+register_subsector_services_callback(app)#,all_data_melted)
+register_subsector_industry_callback(app)#,all_data_melted)
 
 if __name__ == '__main__':
     app.run(debug=True)
