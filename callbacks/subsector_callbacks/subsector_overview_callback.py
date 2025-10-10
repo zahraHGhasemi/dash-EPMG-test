@@ -6,7 +6,6 @@ from utils.dataframe_melter import get_data_melted
 def register_subsector_overview_callback(app):#, all_data_melted):
     dict_table_name = {'Transport': 'TRA_FEC', 'Residential': 'RSD_FEC', 'Services': 'SRV_FEC',
                         'Industry': 'IND_FEC', 'Agriculture': 'AGR_FEC'}
-    all_data_melted = get_data_melted()
     @app.callback(
         Output('FEC_by_sector_chart', 'figure'),
         Input('scenario-dropdown', 'value'),
@@ -16,11 +15,9 @@ def register_subsector_overview_callback(app):#, all_data_melted):
 
     def FEC_by_sector(scenario, year_range, selected_sectors):
         table_name = dict_table_name[selected_sectors]
-        
-        all_data_melted_filtered = all_data_melted[(all_data_melted['Scenario'] == scenario) &
-                                                (all_data_melted['Year'] >= year_range[0]) &
-                                                (all_data_melted['Year'] <= year_range[1])&
-                                                (all_data_melted['tableName'] == table_name)]
+        all_data_melted = get_data_melted(scenario, year_range)
+
+        all_data_melted_filtered = all_data_melted[(all_data_melted['tableName'] == table_name)]
 
         return plot_chart(all_data_melted_filtered)
     
@@ -32,6 +29,8 @@ def register_subsector_overview_callback(app):#, all_data_melted):
         Input('source-by-sector-dropdown', 'value')
     )
     def source_by_sector(scenario, year_range, source):
+        all_data_melted = get_data_melted(scenario, year_range)
+
         df_filtered = filter_df_by_category(all_data_melted,['SYS','Sector', 'FEC'],['Cost', 'Lump'])
         
         dic_source = dict(zip(df_filtered['tableTitle'].unique(),df_filtered['tableName'].unique()))
@@ -57,10 +56,6 @@ def register_subsector_overview_callback(app):#, all_data_melted):
             if s in dic_source.keys():
                 ls_source.append(dic_source[s])
 
-        all_data_melted_filtered = all_data_melted[(all_data_melted['Scenario'] == scenario) &
-                                                (all_data_melted['Year'] >= year_range[0]) &
-                                                (all_data_melted['Year'] <= year_range[1])&
-                                                (all_data_melted['tableName'].isin(ls_source))]
-
+        all_data_melted_filtered = all_data_melted[(all_data_melted['tableName'].isin(ls_source))]
         return plot_chart(all_data_melted_filtered, type = 'bar')
 

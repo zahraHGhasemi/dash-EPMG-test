@@ -4,7 +4,7 @@ from dash import dcc, html
 from utils.plot_chart import plot_chart
 from utils.dataframe_melter import get_data_melted
 def register_search_callbacks(app):#, all_data_melted):
-    all_data_melted = get_data_melted()
+    
     @app.callback(
         Output("search-results-container", "children"),
         Input("apply-filter-btn", "n_clicks"),
@@ -14,18 +14,16 @@ def register_search_callbacks(app):#, all_data_melted):
         State("exclude-words-input", "value")
     )
     def search_callback(n_clicks, scenario, year_range, include_words, exclude_words):
+        all_data_melted = get_data_melted(scenario, year_range)
+
         if not n_clicks:
             return [html.P("Enter filters and click Apply to see results.")]
 
         include_list = [w.strip() for w in include_words.split(',')] if include_words else []
         exclude_list = [w.strip() for w in exclude_words.split(',')] if exclude_words else []
-        df_filtered = all_data_melted[(all_data_melted['Scenario'] == scenario) &
-                                        (all_data_melted['Year'] >= year_range[0]) &
-                                        (all_data_melted['Year'] <= year_range[1])
-                                        ]
-                # Filter the main dataframe
+        
         df_filtered = filter_df_by_category(
-            df_filtered,
+            df=all_data_melted,
             existing_words=include_list,
             non_existing_words=exclude_list
         )

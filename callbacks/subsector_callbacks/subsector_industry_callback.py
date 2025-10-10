@@ -2,7 +2,6 @@ from dash import Input, Output
 from utils.plot_chart import plot_chart
 from utils.dataframe_melter import get_data_melted
 def register_subsector_industry_callback(app):#,all_data_melted):
-    all_data_melted = get_data_melted()
     @app.callback(
         Output('industry-subsector-chart', 'figure'),
         Input('scenario-dropdown', 'value'),
@@ -27,10 +26,8 @@ def register_subsector_industry_callback(app):#,all_data_melted):
             ls_subsector.append('IND-FAP_FEC')
         if 'basic metal and fabricated metal products' in subsector:
             ls_subsector.append('IND-MAP_FEC')
+        all_data_melted = get_data_melted(scenario, year_range)
 
-        all_data_melted_filtered = all_data_melted[(all_data_melted['Scenario'] == scenario) &
-                                                    (all_data_melted['Year'] >= year_range[0]) &
-                                                    (all_data_melted['Year'] <= year_range[1])&
-                                                    (all_data_melted['tableName'].isin(ls_subsector))]
+        all_data_melted_filtered = all_data_melted[(all_data_melted['tableName'].isin(ls_subsector))]
         return plot_chart(all_data_melted_filtered)
 

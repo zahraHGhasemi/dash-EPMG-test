@@ -53,7 +53,16 @@ def melt_dataframe(all_data_df):
 
 all_data_melted, scenarios = melt_dataframe(all_data_df)
 
-def get_data_melted():
-    return all_data_melted
+def get_data_melted(scenario = None, year_range=None):
+    if scenario:
+        filtered_data = all_data_melted[all_data_melted['Scenario'] == scenario]
+    if year_range:
+        filtered_data = filtered_data[
+            (filtered_data['Year'] >= year_range[0]) & (filtered_data['Year'] <= year_range[1])
+        ]
+    if not scenario and not year_range:
+        filtered_data = all_data_melted
+    return filtered_data 
+    
 def get_scenarios():
     return scenarios

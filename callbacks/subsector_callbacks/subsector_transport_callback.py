@@ -3,15 +3,9 @@ from utils.plot_chart import plot_chart
 from utils.filter_dataframe import filter_df_by_category
 from utils.dataframe_melter import get_data_melted
 
-def register_subsector_transport_callback(app):#, all_data_melted):
-    all_data_melted = get_data_melted()
-    df_filtered_FC = filter_df_by_category(all_data_melted, ['TRA','Fuel'])
-    df_filtered_VS = filter_df_by_category(all_data_melted, ['TRA', 'TYPE'],['Fuel'])
-    df_filtered_VA = filter_df_by_category(all_data_melted, ['TRA', 'Land'])
-    dic_filter_FC = dict(zip(df_filtered_FC['tableTitle'].unique(),df_filtered_FC['tableName'].unique()))
-    dic_filter_VS = dict(zip(df_filtered_VS['tableTitle'].unique(),df_filtered_VS['tableName'].unique()))
-    dic_filter_VA = dict(zip(df_filtered_VA['tableTitle'].unique(),df_filtered_VA['tableName'].unique()))
-
+def register_subsector_transport_callback(app):
+    
+    
     @app.callback(
         Output('transport-fuel-cons-chart', 'figure'),
         Input('scenario-dropdown', 'value'),
@@ -20,6 +14,10 @@ def register_subsector_transport_callback(app):#, all_data_melted):
     )
 
     def transport_fuel_cons(scenario, year_range, fuel_cons):
+        all_data_melted = get_data_melted(scenario, year_range)
+        df_filtered_FC = filter_df_by_category(all_data_melted, ['TRA','Fuel'])
+        dic_filter_FC = dict(zip(df_filtered_FC['tableTitle'].unique(),df_filtered_FC['tableName'].unique()))
+
         # dic_filter = {'Fuel Consumption - Domestic Aviation': 'TRA_AVIDOM_FuelCons',
         #             'Fuel Consumption - International Aviation': 'TRA_AVIINT_FuelCons',
         #             'Fuel Consumption - Land Transport (F)': 'TRA_Freight_Land_FuelCons',
@@ -30,10 +28,7 @@ def register_subsector_transport_callback(app):#, all_data_melted):
         dic_filter = dic_filter_FC
         table_name = dic_filter[fuel_cons]
 
-        all_data_melted_filtered = all_data_melted[(all_data_melted['Scenario'] == scenario) &
-                                                    (all_data_melted['Year'] >= year_range[0]) &
-                                                    (all_data_melted['Year'] <= year_range[1])&
-                                                    (all_data_melted['tableName'] == table_name)]
+        all_data_melted_filtered = all_data_melted[(all_data_melted['tableName'] == table_name)]
         
         return plot_chart(all_data_melted_filtered)
     
@@ -45,6 +40,11 @@ def register_subsector_transport_callback(app):#, all_data_melted):
         Input('transport-vehicle-type-dropdown', 'value')
     )
     def transport_vehicle_type(scenario, year_range, vehicle_type):
+        all_data_melted = get_data_melted(scenario, year_range)
+        df_filtered_VS = filter_df_by_category(all_data_melted, ['TRA', 'TYPE'],['Fuel'])
+        dic_filter_VS = dict(zip(df_filtered_VS['tableTitle'].unique(),df_filtered_VS['tableName'].unique()))
+
+
         # transport_fc = filter_df_by_category(all_data_melted, ['TRA',"TYPE"])
         # dic_filter = dict(zip(transport_fc['tableTitle'].unique(),transport_fc['tableName'].unique()))
 
@@ -58,10 +58,7 @@ def register_subsector_transport_callback(app):#, all_data_melted):
         #             'Private Cars - Stock by Type': 'TRA_P-CAR_TYPE'}
         dic_filter = dic_filter_VS
         table_name = dic_filter[vehicle_type]
-        all_data_melted_filtered = all_data_melted[(all_data_melted['Scenario'] == scenario) &
-                                                    (all_data_melted['Year'] >= year_range[0]) &
-                                                    (all_data_melted['Year'] <= year_range[1])&
-                                                    (all_data_melted['tableName']== table_name)]
+        all_data_melted_filtered = all_data_melted[(all_data_melted['tableName']== table_name)]
         return plot_chart(all_data_melted_filtered)
 
 
@@ -72,6 +69,10 @@ def register_subsector_transport_callback(app):#, all_data_melted):
         Input('transport-vehicle-activity-dropdown', 'value')
     )
     def transport_vehicle_activity(scenario, year_range, vehicle_activity):
+        all_data_melted = get_data_melted(scenario, year_range)
+        df_filtered_VA = filter_df_by_category(all_data_melted, ['TRA', 'Land'])
+        dic_filter_VA = dict(zip(df_filtered_VA['tableTitle'].unique(),df_filtered_VA['tableName'].unique()))
+
         # dic_filtered = {'Land Transport - Lump Sum Investment Cost': 'TRA-Land_LumpInv',
         #                 'Land Transport (F) by Mode': 'TRA_Freight_Land_Mode',
         #                 'Land Transport (P) by Distance': 'TRA_Passenger_Land_Distance',
@@ -81,10 +82,7 @@ def register_subsector_transport_callback(app):#, all_data_melted):
         #                 'Land Transport (P) - Short': 'TRA_Passenger_Land_Mode-S'}
         dic_filtered = dic_filter_VA
         table_name = dic_filtered[vehicle_activity]
-        all_data_melted_filtered = all_data_melted[(all_data_melted['Scenario'] == scenario) &
-                                                    (all_data_melted['Year'] >= year_range[0]) &
-                                                    (all_data_melted['Year'] <= year_range[1])&
-                                                    (all_data_melted['tableName']== table_name)]
+        all_data_melted_filtered = all_data_melted[(all_data_melted['tableName']== table_name)]
         return plot_chart(all_data_melted_filtered)
     
     @app.callback(
@@ -94,14 +92,12 @@ def register_subsector_transport_callback(app):#, all_data_melted):
         Input('transport-other-dropdown', 'value')
     )
     def transport_other(scenario, year_range, other):
+        all_data_melted = get_data_melted(scenario, year_range)
         selected_table_name =[]
         if "CO2 emission" in other:
             selected_table_name.append("TRA_Emissions-CO2")
         elif "Land TransportLump Sum Investment Cost" in other:
             selected_table_name.append("TRA-Land_LumpInv")
 
-        all_data_melted_filtered = all_data_melted[(all_data_melted['Scenario'] == scenario) &
-                                                    (all_data_melted['Year'] >= year_range[0]) &
-                                                    (all_data_melted['Year'] <= year_range[1])&
-                                                    (all_data_melted['tableName'].isin(selected_table_name))]
+        all_data_melted_filtered = all_data_melted[(all_data_melted['tableName'].isin(selected_table_name))]
         return plot_chart(all_data_melted_filtered)
