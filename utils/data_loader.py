@@ -18,6 +18,7 @@ def load_and_concat_data(directory_path):
 
     if df_list:
         concatenated_df = pd.concat(df_list, ignore_index=True)
+        
         return concatenated_df
     else:
         return pd.DataFrame() 

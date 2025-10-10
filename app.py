@@ -14,8 +14,8 @@ import dash_bootstrap_components as dbc
 # from components.supply import supply_layout
 # from components.power import power_layout
 # from components.sector import sector_layout
-from components.search import search_layout
-from components.emissionCO2 import emissionCO2_layout   
+# from components.search import search_layout
+# from components.emissionCO2 import emissionCO2_layout   
 from callbacks.overview_callback import register_overview_callbacks
 from callbacks.supply_callback import register_supply_callbacks
 from callbacks.power_callback import register_power_callbacks
@@ -29,20 +29,18 @@ from callbacks.subsector_callbacks.subsector_industry_callback import register_s
 from callbacks.search_callback import register_search_callbacks
 from callbacks.tab_content_callbacks import register_tab_content_callbacks
 
-# from utils.data_loader import  save_data
 from utils.dataframe_melter import get_scenarios, get_data_melted
-# all_data_df = load_and_concat_data('data')
 
-# all_data_melted, scenarios = melt_dataframe(all_data_df)
 
-# save_data(all_data_melted, 'data_all/all_data_melted.csv')
-scenarios = get_scenarios()
-all_data_melted = get_data_melted()
+
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP],
     suppress_callback_exceptions=True)
 server = app.server
 
+
+scenarios = get_scenarios()
+# all_data_melted = get_data_melted()
 app.title = "Energy Scenarios Dashboard"
 
 
@@ -106,6 +104,8 @@ register_subsector_transport_callback(app)#, all_data_melted)
 register_subsector_residential_callback(app)#,all_data_melted)
 register_subsector_services_callback(app)#,all_data_melted)
 register_subsector_industry_callback(app)#,all_data_melted)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

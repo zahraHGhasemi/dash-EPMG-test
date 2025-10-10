@@ -2,7 +2,6 @@ from utils.config_loader import chartsTitle, seriesTitle
 import pandas as pd
 import numpy as np
 from utils.data_loader import all_data_df
-
 def add_title_column(df):
     # Merge with chartsTitle to add the complete table name
     df = pd.merge(
@@ -46,14 +45,22 @@ def melt_dataframe(all_data_df):
     all_data_melted = add_title_column(all_data_melted)
     all_data_melted["category"]= all_data_melted['tableName'].apply(lambda x: x.split("_"))
     all_data_melted['category'] = all_data_melted['category'].apply(
-        lambda cat: [c.lower() for c in cat] if isinstance(cat, list) else cat
-    )
+        lambda cat: [c.lower() for c in cat] if isinstance(cat, list) else cat)
+    
+    all_data_melted['Year'] = all_data_melted['Year'].astype('int16')
+    all_data_melted['Value'] = all_data_melted['Value'].astype('float32')
+    all_data_melted['Scenario'] = all_data_melted['Scenario'].astype('category')
+    all_data_melted['seriesName'] = all_data_melted['seriesName'].astype('category')
+
     scenarios = sorted(all_data_melted['Scenario'].unique())
     return all_data_melted, scenarios
 
 all_data_melted, scenarios = melt_dataframe(all_data_df)
 
-def get_data_melted(scenario = None, year_range=None):
+
+
+def get_data_melted(scenario=[], year_range=[]):
+    filtered_data = all_data_melted     
     if scenario:
         filtered_data = all_data_melted[all_data_melted['Scenario'] == scenario]
     if year_range:
@@ -63,6 +70,5 @@ def get_data_melted(scenario = None, year_range=None):
     if not scenario and not year_range:
         filtered_data = all_data_melted
     return filtered_data 
-    
 def get_scenarios():
     return scenarios

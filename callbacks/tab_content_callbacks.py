@@ -4,7 +4,7 @@ from components.supply import supply_layout
 from components.power import power_layout
 from components.sector import sector_layout
 from components.search import search_layout
-from components.emissionCO2 import emissionCO2_layout   
+from components.emissionCO2 import emissionCO2_layout 
 # from callbacks.overview_callback import register_overview_callbacks
 # from callbacks.supply_callback import register_supply_callbacks
 # from callbacks.power_callback import register_power_callbacks
@@ -20,10 +20,12 @@ from utils.dataframe_melter import get_data_melted
 def register_tab_content_callbacks(app):
     @app.callback(
         Output('tab-content', 'children'),
-        Input('tabs', 'value')
+        Input('tabs', 'value'),
+        Input('scenario-dropdown', 'value'),
+        Input('year-slider', 'value')
     )
-    def render_tab(tab):
-        all_data_melted = get_data_melted()
+    def render_tab(tab, scenario, year_range):
+        all_data_melted =get_data_melted(scenario, year_range)
         if tab == 'overview':
             # register_overview_callback(app)  
             return overview_layout
