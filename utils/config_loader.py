@@ -19,6 +19,7 @@ def load_json_as_df(filename):
       df.rename(columns={"index": "tableName"}, inplace=True)
     else:
       df.rename(columns={"index": "seriesName"}, inplace=True)
+    
     return df    
 
 chartsInfo = load_json_as_df("chartsInfo.json")

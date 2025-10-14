@@ -52,11 +52,31 @@ overview_layout = dbc.Container([
     ),
     dbc.Row([
         dbc.Col(
-        dcc.Graph(id='import-chart'),
-            md=6  # 6/12 width = half of the row on medium+ screens
+        [
+            html.Button(
+                "↓",
+                id='import-export-download',
+                
+            ),
+            dcc.Graph(id='import-chart',
+                      style={'height': '400px'},
+                    config={'responsive': True})
+            
+        ],
+            md=6,  # 6/12 width = half of the row on medium+ screens
         ),
         dbc.Col(
-        dcc.Graph(id='export-chart'),
+        [
+            html.Button(
+                "↓",
+                id='import-export-download',
+                
+            ),
+            dcc.Graph(id='export-chart',
+                      style={'height': '400px'},
+                    config={'responsive': True})
+            
+        ],
             md=6
         ),
     ])

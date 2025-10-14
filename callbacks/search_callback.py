@@ -10,10 +10,11 @@ def register_search_callbacks(app):#, all_data_melted):
         Input("apply-filter-btn", "n_clicks"),
         Input('scenario-dropdown', 'value'),
         Input('year-slider', 'value'),
+        Input('chart-type-dropdown', 'value'),
         State("include-words-input", "value"),
         State("exclude-words-input", "value")
     )
-    def search_callback(n_clicks, scenario, year_range, include_words, exclude_words):
+    def search_callback(n_clicks, scenario, year_range, chart_type, include_words, exclude_words):
         all_data_melted = get_data_melted(scenario, year_range)
 
         if not n_clicks:
@@ -36,7 +37,7 @@ def register_search_callbacks(app):#, all_data_melted):
         figures = []
         for table in unique_tables:
             df_table = df_filtered[df_filtered['tableName'] == table]
-            fig = plot_chart(df_table, type='bar')
+            fig = plot_chart(df_table, type= chart_type)
 
             figures.append(
                 html.Div([

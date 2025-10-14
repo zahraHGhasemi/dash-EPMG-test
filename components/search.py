@@ -20,7 +20,18 @@ def search_layout(df):
                     placeholder="e.g. Cost, Lump",
                     style={"width": "80%", "margin-bottom": "10px"}
                 ),
-                html.Button("Apply Filter", id="apply-filter-btn", n_clicks=0)
+                html.Button("Apply Filter", id="apply-filter-btn", n_clicks=0),
+                html.Label("select the graph type:"),
+                dcc.Dropdown(
+                    id = "chart-type-dropdown",
+                    options=[
+                                {'label': 'bar chart', 'value': 'bar'},
+                                {'label': 'line chart', 'value': 'line'},
+                                {'label': 'area chart', 'value': 'area'},
+                            ],
+                    value = 'bar',
+                    multi= False
+                )
             ], style={"margin-bottom": "20px"}),
 
             # Container for dynamically generated graphs

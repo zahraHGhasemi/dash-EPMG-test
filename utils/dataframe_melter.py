@@ -22,9 +22,11 @@ def add_title_column(df):
         how='left'
     )
     df.rename(columns={0: 'seriesTitle'}, inplace=True)
+    df['tableTitle'] = df['tableTitle'].fillna(df['tableName'])
+    df['seriesTitle'] = df['seriesTitle'].fillna(df['seriesName'])
     df['tableTitle'] = df['tableTitle'].replace({np.nan: 'nan'})
     df['seriesTitle'] = df['seriesTitle'].replace({np.nan: 'nan'})
-
+    
     return df
 
 def melt_dataframe(all_data_df):

@@ -36,8 +36,10 @@ def register_subsector_residential_callback(app):#,all_data_melted):
             retrofit_f = 'RSD_RTFT-DET_NCAP'
         elif retrofit == 'energy saving':
             retrofit_f = 'RSD_RTFT_NRG_SAVINGS'
-        all_data_melted_filtered = all_data_melted[(all_data_melted['tableName'] == retrofit_f)]
-        return plot_chart(all_data_melted_filtered)
+        all_data_melted_filtered = all_data_melted[all_data_melted['tableName'] == retrofit_f]
+        # print(all_data_melted_filtered['seriesTitle'].unique())
+        # print(all_data_melted_filtered['seriesName'].unique())
+        return plot_chart(all_data_melted_filtered, 'bar')
 
 
     @app.callback(

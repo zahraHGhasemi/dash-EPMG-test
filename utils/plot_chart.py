@@ -14,6 +14,16 @@ def plot_chart(all_data_melted_filtered, type = 'area'):
         )
         fig.update_layout(xaxis_title='Year', yaxis_title= all_data_melted_filtered['label'].unique()[0] if not all_data_melted_filtered.empty else 'Value') # Updated yaxis_title
         return fig
+    elif type == 'line':
+        fig = px.line(
+            all_data_melted_filtered,
+            x='Year',
+            y='Value', # Changed y to 'Value'
+            color=color_col, #'seriesTitle', # Changed color to 'seriesName',
+            title  = title_col #tiall_data_melted_filtered['tableTitle'].unique()[0]
+        )
+        fig.update_layout(xaxis_title='Year', yaxis_title= all_data_melted_filtered['label'].unique()[0] if not all_data_melted_filtered.empty else 'Value') # Updated yaxis_title
+        return fig
     elif type == 'area':
         fig = px.area(
             all_data_melted_filtered,
